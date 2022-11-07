@@ -26,7 +26,15 @@ namespace ParksClient.Migrations
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<bool>("ParkNational")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("StateId")
+                        .HasColumnType("int");
+
                     b.HasKey("ParkId");
+
+                    b.HasIndex("StateId");
 
                     b.ToTable("Parks");
 
@@ -34,27 +42,37 @@ namespace ParksClient.Migrations
                         new
                         {
                             ParkId = 1,
-                            ParkName = "Matilda"
+                            ParkName = "Yosemite",
+                            ParkNational = true,
+                            StateId = 1
                         },
                         new
                         {
                             ParkId = 2,
-                            ParkName = "Rexie"
+                            ParkName = "Joshua Tree",
+                            ParkNational = true,
+                            StateId = 1
                         },
                         new
                         {
                             ParkId = 3,
-                            ParkName = "Matilda"
+                            ParkName = "Olympic National",
+                            ParkNational = true,
+                            StateId = 3
                         },
                         new
                         {
                             ParkId = 4,
-                            ParkName = "Pip"
+                            ParkName = "Cedar Lake",
+                            ParkNational = true,
+                            StateId = 4
                         },
                         new
                         {
                             ParkId = 5,
-                            ParkName = "Bartholomew"
+                            ParkName = "Big Spring State",
+                            ParkNational = false,
+                            StateId = 2
                         });
                 });
 
@@ -81,32 +99,48 @@ namespace ParksClient.Migrations
                         {
                             StateId = 1,
                             StatePopulation = 1,
-                            StateTitle = "Matilda"
+                            StateTitle = "California"
                         },
                         new
                         {
                             StateId = 2,
                             StatePopulation = 2,
-                            StateTitle = "Rexie"
+                            StateTitle = "Texas"
                         },
                         new
                         {
                             StateId = 3,
                             StatePopulation = 3,
-                            StateTitle = "Matilda"
+                            StateTitle = "Washington"
                         },
                         new
                         {
                             StateId = 4,
                             StatePopulation = 4,
-                            StateTitle = "Pip"
+                            StateTitle = "Oregon"
                         },
                         new
                         {
                             StateId = 5,
                             StatePopulation = 5,
-                            StateTitle = "Bartholomew"
+                            StateTitle = "Nevada"
                         });
+                });
+
+            modelBuilder.Entity("ParksClient.Models.Park", b =>
+                {
+                    b.HasOne("ParksClient.Models.State", "States")
+                        .WithMany("Parks")
+                        .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("States");
+                });
+
+            modelBuilder.Entity("ParksClient.Models.State", b =>
+                {
+                    b.Navigation("Parks");
                 });
 #pragma warning restore 612, 618
         }

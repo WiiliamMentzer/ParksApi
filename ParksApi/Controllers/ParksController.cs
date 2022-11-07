@@ -28,14 +28,22 @@ namespace ParksClient.Controllers
 
     //Get api/parks
     [HttpGet]
-    public async Task<List<Park>> GetParks(string name, int id)
+    public async Task<List<Park>> GetParks(string name, int id, bool parkNational)
     {
         IQueryable<Park> query = _db.Parks.AsQueryable();
 
         if (name != null)
         {
-            query= query.Where(e => e.ParkName == name);
-        }       
+          query= query.Where(e => e.ParkName == name);
+        }
+        
+        // if (parkNational == true)
+        // {
+        //   query = query.Where(e => e.ParkNational == parkNational);
+        // } else 
+        // {
+        //   query = query.Where(e => e.ParkNational == false);
+        // }
 
       return await query.ToListAsync();
     }
@@ -97,16 +105,16 @@ namespace ParksClient.Controllers
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeletePark(int id)
     {
-    var park = await _db.Parks.FindAsync(id);
-    if (park == null)
-    {
-        return NotFound();
-    }
+      var park = await _db.Parks.FindAsync(id);
+      if (park == null)
+      {
+          return NotFound();
+      }
 
-    _db.Parks.Remove(park);
-    await _db.SaveChangesAsync();
+      _db.Parks.Remove(park);
+      await _db.SaveChangesAsync();
 
-    return NoContent();
+      return NoContent();
     }
   }
 }

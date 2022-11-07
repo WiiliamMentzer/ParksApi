@@ -25,25 +25,12 @@ namespace ParksClient.Controllers
             return _db.States.Any(e =>e.StateId == id);
         }
 
-        //Get: api/states/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<State>> GetState(int id)
-        {
-            var state = await _db.States.FindAsync(id);
 
-            if (state == null)
-            {
-                return NotFound();
-            }
-
-            return state;
-        }
-
-        //Get api/states
+        //Get: api/states
         [HttpGet]
-        public async Task<List<State>> Get(string title, int population)
+        public async Task<List<State>> Get(string title, int population, bool parkNational)
         {
-            IQueryable<State> query = _db.States.AsQueryable();
+            IQueryable<State> query = _db.States.Include(entry => entry.Parks).AsQueryable();
 
             if (title != null)
             {
@@ -56,6 +43,20 @@ namespace ParksClient.Controllers
             }
 
         return await query.ToListAsync();
+        }
+
+        //Get: api/states/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<State>> GetState(int id)
+        {
+            var state = await _db.States.FindAsync(id);
+
+            if (state == null)
+            {
+                return NotFound();
+            }
+
+            return state;
         }
 
         //Post: api/states
@@ -101,16 +102,16 @@ namespace ParksClient.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteState(int id)
         {
-        var state = await _db.States.FindAsync(id);
-        if (state == null)
-        {
-            return NotFound();
-        }
+            var state = await _db.States.FindAsync(id);
+            if (state == null)
+            {
+                return NotFound();
+            }
 
-        _db.States.Remove(state);
-        await _db.SaveChangesAsync();
+            _db.States.Remove(state);
+            await _db.SaveChangesAsync();
 
-        return NoContent();
+            return NoContent();
         }
     }
 }

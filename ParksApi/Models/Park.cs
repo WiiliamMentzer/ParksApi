@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ParksClient.Models
 {
@@ -14,9 +15,13 @@ namespace ParksClient.Models
         }
 
         public int ParkId { get; set; }
+        public int StateId { get; set; }
         [Required]
         public string ParkName { get; set; }
+        [Required]
+        public bool ParkNational { get; set; }
 
-        // public virtual ICollection<StatePark> JoinStates { get; }
+        [JsonIgnore]
+        public virtual State States { get; set;}
     }
 }
