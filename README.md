@@ -85,7 +85,6 @@ This will allow full CRUD in real time and display all information via UI.
     * GET (Read)| `/api/Parks/{id}` : Allows the user to look up a specific park via parkId (Ex. /api/parks/3).
     * PUT (Update)| `/api/Parks/{id}` : Allows the user to update parks in the database provided you have the ID for the park.
     * DELETE (Delete)| `/api/Parks/{id}` : Allows the user to delete a park in the database provided you have the ID for the park.
-  <br>
   * States
     * GET (Read)| `/api/States` : Allows the user to look at all states and query via state name.
     * POST (Create)| `/api/States` : Allows the user to add a new state to the database.
