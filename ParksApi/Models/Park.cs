@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace MessageBoard.Models
+namespace ParksClient.Models
 {
     public class Park
     {

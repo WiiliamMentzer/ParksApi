@@ -16,11 +16,11 @@ namespace ParksClient.Models
 
       public int StateId { get; set; }
       [Required]
-      [StringLength(25, ErrorMessage = "Group Title must be between 0 and 25 characters")]
-      public string GroupTitle { get; set; }
-      public int GroupPopulation { get; set; }
-      public DateTime GroupCreated { get; set; }
+      [StringLength(25, ErrorMessage = "State Title must be between 0 and 25 characters")]
+      public string StateTitle { get; set; }
+      public int StatePopulation { get; set; }
+      public DateTime StateCreated { get; set; }
       
-      public virtual ICollection<GroupMember> JoinParks { get; set; }
+      public virtual ICollection<StatePark> JoinParks { get; set; }
     }
 }
