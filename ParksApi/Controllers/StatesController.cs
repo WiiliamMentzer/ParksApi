@@ -9,7 +9,7 @@ using ParksClient.Models;
 
 namespace ParksClient.Controllers
 {
-    [Route(api/[controller])]
+    [Route("api/[controller]")]
     [ApiController]
     public class StatesController : ControllerBase
     {
@@ -22,7 +22,7 @@ namespace ParksClient.Controllers
 
         private bool StateExists(int id)
         {
-            return _sb.States.Any(e =>e.StateId == id);
+            return _db.States.Any(e =>e.StateId == id);
         }
 
         //Get: api/states/{id}
@@ -41,7 +41,7 @@ namespace ParksClient.Controllers
 
             //Get api/states
         [HttpGet]
-        public async Task<List<State>> Get(string title, string topic)
+        public async Task<List<State>> Get(string title, int population)
         {
             IQueryable<State> query = _db.States.AsQueryable();
 
@@ -50,9 +50,9 @@ namespace ParksClient.Controllers
                 query= query.Where(entry => entry.StateTitle == title);
             }
 
-            if (topic != null)
+            if (population != null)
             {
-                query= query.Where(entry => entry.StateTopic == topic);
+                query= query.Where(entry => entry.StatePopulation == population);
             }
 
         return await query.ToListAsync();
