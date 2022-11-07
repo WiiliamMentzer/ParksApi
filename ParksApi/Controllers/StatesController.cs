@@ -39,7 +39,7 @@ namespace ParksClient.Controllers
             return state;
         }
 
-            //Get api/states
+        //Get api/states
         [HttpGet]
         public async Task<List<State>> Get(string title, int population)
         {
@@ -50,7 +50,7 @@ namespace ParksClient.Controllers
                 query= query.Where(entry => entry.StateTitle == title);
             }
 
-            if (population != null)
+            if (population != 0)
             {
                 query= query.Where(entry => entry.StatePopulation == population);
             }
@@ -58,32 +58,58 @@ namespace ParksClient.Controllers
         return await query.ToListAsync();
         }
 
-            //Put: api/States/5
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, State state)
-    {
-        if (id != state.StateId)
+        //Post: api/states
+        [HttpPost]
+        public async Task<ActionResult<State>> PostState(State state)
         {
-            return BadRequest();
-        }
-
-        _db.Entry(state).State = EntityState.Modified;
-
-        try
-        {
+            _db.States.Add(state);
             await _db.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetState), new {id = state.StateId}, state);
         }
-        catch (DbUpdateConcurrencyException)
+
+        //Put: api/States/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, State state)
+        {
+            if (id != state.StateId)
             {
-            if (!StateExists(id))
+                return BadRequest();
+            }
+
+            _db.Entry(state).State = EntityState.Modified;
+
+            try
             {
-                return NotFound();
+                await _db.SaveChangesAsync();
             }
-            else
-            {
-                throw;
-            }
-            }
+            catch (DbUpdateConcurrencyException)
+                {
+                if (!StateExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+                }
+            return NoContent();
+        }
+        
+        // DELETE: api/states/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteState(int id)
+        {
+        var state = await _db.States.FindAsync(id);
+        if (state == null)
+        {
+            return NotFound();
+        }
+
+        _db.States.Remove(state);
+        await _db.SaveChangesAsync();
+
         return NoContent();
         }
     }

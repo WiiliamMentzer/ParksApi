@@ -10,13 +10,13 @@ namespace ParksClient.Models
     {
         public Park()
         {
-          this.JoinStates = new HashSet<StatePark>();
+          // this.JoinStates = new HashSet<StatePark>();
         }
 
         public int ParkId { get; set; }
         [Required]
         public string ParkName { get; set; }
 
-        public virtual ICollection<StatePark> JoinStates { get; }
+        // public virtual ICollection<StatePark> JoinStates { get; }
     }
 }

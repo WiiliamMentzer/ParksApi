@@ -10,8 +10,7 @@ namespace ParksClient.Models
     {
       public State()
       {
-        this.JoinParks = new HashSet<StatePark>();
-        this.StateCreated = DateTime.Now;
+        // this.JoinParks = new HashSet<StatePark>();
       }
 
       public int StateId { get; set; }
@@ -19,8 +18,7 @@ namespace ParksClient.Models
       [StringLength(25, ErrorMessage = "State Title must be between 0 and 25 characters")]
       public string StateTitle { get; set; }
       public int StatePopulation { get; set; }
-      public DateTime StateCreated { get; set; }
       
-      public virtual ICollection<StatePark> JoinParks { get; set; }
+      // public virtual ICollection<StatePark> JoinParks { get; set; }
     }
 }
